@@ -84,12 +84,10 @@
   }
   if (!load_data("exam_time")) {
     save_data("exam_time", new Date().getTime());
+    save_data("pause_time", new Date().getTime());
   }
   if (!load_data("pause_delay_time")) {
     save_data("pause_delay_time", 0);
-  }
-  if (!load_data("pause_time")) {
-    save_data("pause_time", new Date().getTime());
   }
   if (!load_data("question_correct_count")) {
     save_data("question_correct_count", 0);
