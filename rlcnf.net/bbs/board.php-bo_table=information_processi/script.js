@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         기출넷 Customize
 // @namespace    http://tampermonkey.net/
-// @version      25.01.13.01
+// @version      25.01.15.01
 // @description  함께 성장하는 기출넷, 당신의 성공을 응원합니다!
 // @author       Rocy
 // @match        https://rlcnf.net/bbs/board.php?bo_table=information_processi*
@@ -569,6 +569,11 @@
      * * * * * * * * * * * * * * * * * * * * * * */
     if (scoring.className == "bg-gray font-16 en" && !skip_guard) {
       skip_guard = true;
+      return;
+    }
+
+    // Skip all record events when clicked on "next question"
+    if (scoring.innerText == "다음문제") {
       return;
     }
 
