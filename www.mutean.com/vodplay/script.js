@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         MuteFun 增加网页全屏按钮
+// @name         MuteFun Patch
 // @namespace    http://tampermonkey.net/
-// @version      25.02.05.02
+// @version      25.02.05.03
 // @description  try to take over the world!
 // @author       Rocy
 // @match        https://www.mutean.com/vodplay/*
@@ -91,12 +91,33 @@
     return playleft_iframe_promise;
   };
 
+  const find_player = async (iframe) => {
+    let playleft_iframe_promise = new Promise((resolve, reject) => {
+      let interval = setInterval(() => {
+        log("Detecting player...");
+
+        let player = iframe.contentDocument.querySelector("#player");
+        if (player) {
+          log("Player found!");
+
+          clearInterval(interval);
+          resolve(player);
+        }
+      }, 250);
+    });
+
+    return playleft_iframe_promise;
+  };
+
   log("Start patching...");
 
   let outter_body = document.body;
   let header = document.querySelector("div.header");
 
   let player_iframe = await find_player_iframe();
+
+  log("Full screen in browser button patching...");
+
   let pip_button = await find_player_pip_button(player_iframe);
 
   let svg_ns = "http://www.w3.org/2000/svg";
@@ -145,4 +166,24 @@
   });
 
   pip_button.after(full_screen_in_browser_button);
+
+  log("Full screen in browser button patching done.");
+
+  log("Hide UI when mouse leave the video player patching...");
+
+  let player = await find_player(player_iframe);
+
+  player.addEventListener("mouseleave", () => {
+    log("Mouse leave the video player...");
+
+    if (player.classList.contains("yzmplayer-playing")) {
+      log("Hide UI...")
+
+      player.classList.add("yzmplayer-hide-controller");
+    }
+  });
+
+  log("Hide UI when mouse leave the video player patching done.");
+  
+  log("Patching done.");
 })();
