@@ -216,11 +216,11 @@
   if (window.self !== window.top) {
     log("In iframe, patching...");
 
-    iframe_main();
+    await iframe_main();
   } else {
     log("In main page, patching...");
 
-    page_main();
+    await page_main();
   }
 
   log("Patching done.");
