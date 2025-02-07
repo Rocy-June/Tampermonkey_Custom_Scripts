@@ -12,9 +12,7 @@
 (async function () {
   "use strict";
 
-  const log = (...args) => {
-    console.log("[MuteFun Patch]", ...args);
-  };
+  const log = console.log.bind(console, "[MuteFun Patch]");
 
   const is_iterable = (obj) => {
     return obj != null && typeof obj[Symbol.iterator] === "function";
