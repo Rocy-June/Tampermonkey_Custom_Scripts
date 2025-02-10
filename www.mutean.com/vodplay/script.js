@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         MuteFun Patch
 // @namespace    http://tampermonkey.net/
-// @version      25.02.05.03
+// @version      25.02.10.01
 // @description  try to take over the world!
 // @author       Rocy
 // @match        https://www.mutean.com/vodplay/*
@@ -52,7 +52,7 @@
   };
 
   const find_player_iframe = async () => {
-    let playleft_iframe_promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let interval = setInterval(() => {
         log("Detecting playleft iframe...");
 
@@ -65,12 +65,10 @@
         }
       }, 250);
     });
-
-    return playleft_iframe_promise;
   };
 
   const find_player_pip_button = async (iframe) => {
-    let playleft_iframe_promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let interval = setInterval(() => {
         log("Detecting pip button...");
 
@@ -85,12 +83,10 @@
         }
       }, 250);
     });
-
-    return playleft_iframe_promise;
   };
 
   const find_player = async (iframe) => {
-    let playleft_iframe_promise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let interval = setInterval(() => {
         log("Detecting player...");
 
@@ -103,8 +99,24 @@
         }
       }, 250);
     });
+  };
 
-    return playleft_iframe_promise;
+  const find_danmaku_bar_wrap = async (iframe) => {
+    return new Promise((resolve, reject) => {
+      let interval = setInterval(() => {
+        log("Detecting danmaku bar wrap...");
+
+        let danmaku_bar_wrap = iframe.contentDocument.querySelector(
+          ".yzmplayer-danmaku-bar-wrap"
+        );
+        if (danmaku_bar_wrap) {
+          log("Danmaku bar wrap found!");
+
+          clearInterval(interval);
+          resolve(danmaku_bar_wrap);
+        }
+      }, 250);
+    });
   };
 
   log("Start patching...");
@@ -175,13 +187,64 @@
     log("Mouse leave the video player...");
 
     if (player.classList.contains("yzmplayer-playing")) {
-      log("Hide UI...")
+      log("Hide UI...");
 
       player.classList.add("yzmplayer-hide-controller");
     }
   });
 
   log("Hide UI when mouse leave the video player patching done.");
-  
+
+  log("Danmaku opacity memory function patching...");
+
+  let danmaku_opacity = localStorage.getItem("danmaku_opacity");
+  if (!danmaku_opacity) {
+    danmaku_opacity = 1;
+    localStorage.setItem("danmaku_opacity", danmaku_opacity);
+  }
+
+  let yzmplayer_danmaku_bar_wrap = await find_danmaku_bar_wrap(player_iframe);
+  let yzmplayer_danmaku_bar = yzmplayer_danmaku_bar_wrap.querySelector(
+    ".yzmplayer-danmaku-bar"
+  );
+  let yzmplayer_danmaku_bar_inner = yzmplayer_danmaku_bar.querySelector(
+    ".yzmplayer-danmaku-bar-inner"
+  );
+
+  const bar_width = 130;
+  let offset_left = ((ele) => {
+    var res = 0;
+    var e = ele;
+    while (true) {
+      res += e.offsetLeft;
+
+      if (e.offsetParent == e || !e.offsetParent) break;
+
+      e = e.offsetParent;
+    }
+
+    return res;
+  })(yzmplayer_danmaku_bar);
+
+  let slide_bar_mouse_down_event = new MouseEvent("mousedown");
+  let document_mouse_move_event = new MouseEvent("mousemove", {
+    clientX: offset_left + bar_width * danmaku_opacity,
+    clientY: 0,
+    buttons: 1,
+  });
+  let document_mouse_up_event = new MouseEvent("mouseup");
+
+  yzmplayer_danmaku_bar_wrap.dispatchEvent(slide_bar_mouse_down_event);
+  player_iframe.contentDocument.dispatchEvent(document_mouse_move_event);
+  player_iframe.contentDocument.dispatchEvent(document_mouse_up_event);
+
+  window.addEventListener("beforeunload", () => {
+    let width_persent_text = yzmplayer_danmaku_bar_inner.style.width;
+    let width_number = parseInt(width_persent_text.replace("%", "")) / 100;
+    localStorage.setItem("danmaku_opacity", width_number);
+  });
+
+  log("Danmaku opacity memory function patching done.");
+
   log("Patching done.");
 })();
