@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         기출넷 Customize
 // @namespace    http://tampermonkey.net/
-// @version      25.01.22.01
+// @version      25.02.25.01
 // @description  함께 성장하는 기출넷, 당신의 성공을 응원합니다!
 // @author       Rocy
 // @match        https://rlcnf.net/bbs/board.php?bo_table=information_processi*
