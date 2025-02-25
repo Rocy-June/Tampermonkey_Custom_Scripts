@@ -348,7 +348,7 @@
       );
       a_link.setAttribute(
         "href",
-        `https://rlcnf.net/bbs/board.php?bo_table=information_processi&wr_id=${answerd_question_sequence[i]}&page=${answerd_question_sequence_page[j]}`
+        `https://rlcnf.net/bbs/board.php?bo_table=${query_obj.bo_table}&wr_id=${answerd_question_sequence[i]}&page=${answerd_question_sequence_page[j]}`
       );
       statistic_info_tbody_tr_2.appendChild(c_e("td", "", a_link));
     }
