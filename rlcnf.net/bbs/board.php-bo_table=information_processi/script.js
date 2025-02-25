@@ -512,7 +512,7 @@
       prev_button.style.cursor = "";
       prev_button.setAttribute(
         "href",
-        `https://rlcnf.net/bbs/board.php?bo_table=information_processi&wr_id=${
+        `https://rlcnf.net/bbs/board.php?bo_table=${query_obj.bo_table}&wr_id=${
           query_obj.wr_id - 1
         }&page=${isNaN(page_number_min) ? query_obj.page + 1 : query_obj.page}`
       );
@@ -533,7 +533,7 @@
       next_button.style.cursor = "";
       next_button.setAttribute(
         "href",
-        `https://rlcnf.net/bbs/board.php?bo_table=information_processi&wr_id=${
+        `https://rlcnf.net/bbs/board.php?bo_table=${query_obj.bo_table}&wr_id=${
           query_obj.wr_id + 1
         }&page=${isNaN(page_number_max) ? query_obj.page - 1 : query_obj.page}`
       );
