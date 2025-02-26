@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         기출넷 Customize
 // @namespace    http://tampermonkey.net/
-// @version      25.02.25.01
+// @version      25.02.26.01
 // @description  함께 성장하는 기출넷, 당신의 성공을 응원합니다!
 // @author       Rocy
 // @match        https://rlcnf.net/bbs/board.php?bo_table=information_processi*
@@ -330,9 +330,9 @@
     ).toString().length;
     max_question_number_length < 2 && (max_question_number_length = 2);
 
-    for (let i = 0, j = 1; i < answerd_question_sequence.length; ++i, ++j) {
+    for (let i = 0; i < answerd_question_sequence.length; ++i) {
       statistic_info_thead_tr.appendChild(
-        c_e("th", "", j.toString().padStart(2, "0"))
+        c_e("th", "", (i + 1).toString().padStart(2, "0"))
       );
       statistic_info_tbody_tr_1.appendChild(
         answered_question[answerd_question_sequence[i]]
@@ -348,7 +348,7 @@
       );
       a_link.setAttribute(
         "href",
-        `https://rlcnf.net/bbs/board.php?bo_table=${query_obj.bo_table}&wr_id=${answerd_question_sequence[i]}&page=${answerd_question_sequence_page[j]}`
+        `https://rlcnf.net/bbs/board.php?bo_table=${query_obj.bo_table}&wr_id=${answerd_question_sequence[i]}&page=${answerd_question_sequence_page[i]}`
       );
       statistic_info_tbody_tr_2.appendChild(c_e("td", "", a_link));
     }
