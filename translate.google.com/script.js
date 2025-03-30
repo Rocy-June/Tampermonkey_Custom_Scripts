@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Translate Customize
 // @namespace    http://tampermonkey.net/
-// @version      25.03.30.02
+// @version      25.03.30.03
 // @description  try to take over the world!
 // @author       Rocy
 // @match        https://translate.google.com/*
@@ -19,12 +19,6 @@
     };
   }
 
-  const source_language_list_box = document.querySelector(
-    ".X4DQ0.zWsGpc[jsname=HexNre] .VfPpkd-AznF2e-LUERP-bN97Pc"
-  );
-  const target_language_list_box = document.querySelector(
-    ".X4DQ0.zWsGpc[jsname=ji7Qmb] .VfPpkd-AznF2e-LUERP-bN97Pc"
-  );
   const source_language_menu_box = document.querySelector(".OoYv6d");
   const target_language_menu_box = document.querySelector(".ykTHSe");
 
