@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Translate Customize
 // @namespace    http://tampermonkey.net/
-// @version      25.03.30.01
+// @version      25.03.30.02
 // @description  try to take over the world!
 // @author       Rocy
 // @match        https://translate.google.com/*
@@ -15,7 +15,7 @@
   let settings = JSON.parse(localStorage.getItem("settings"));
   if (!settings) {
     settings = {
-      fixes: [{ name: "中文（简体）", code: "zh-CN" }],
+      fixes: [],
     };
   }
 
