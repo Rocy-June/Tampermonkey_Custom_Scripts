@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         기출넷 Customize
 // @namespace    http://tampermonkey.net/
-// @version      25.02.26.01
+// @version      25.05.02.01
 // @description  함께 성장하는 기출넷, 당신의 성공을 응원합니다!
 // @author       Rocy
 // @match        https://rlcnf.net/bbs/board.php?bo_table=information_processi*
 // @match        https://rlcnf.net/bbs/board.php?bo_table=info_process_p*
+// @match        https://rlcnf.net/bbs/board.php?bo_table=info_process_p*
+// @match        https://rlcnf.net/bbs/board.php?bo_table=Information_process*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=rlcnf.net
 // @grant        none
 // ==/UserScript==
